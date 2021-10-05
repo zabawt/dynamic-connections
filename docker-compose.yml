@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  siemens_database:
+    image: library/postgres:13
+    shm_size: 128M
+    container_name: poc_db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+      POSTGRES_DB: poc
