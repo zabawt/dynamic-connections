@@ -14,7 +14,7 @@ export class CustomTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
   constructor(@Inject(REQUEST) private readonly request: Request) {}
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     const defaultOpts = databaseConfig;
-    console.error(typeof this.request.headers['demo-mode']);
+
     return this.request.headers['demo-mode'] === 'false'
       ? ({ ...defaultOpts, name: uuidv4() } as any)
       : { ...defaultOpts, database: 'poc_demo', name: uuidv4() };
