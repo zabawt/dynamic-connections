@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { User } from 'src/users/user.entity';
+import { join } from 'path';
 
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -8,12 +8,13 @@ export const databaseConfig: TypeOrmModuleOptions = {
   username: 'root',
   password: 'root',
   database: 'poc',
-  entities: [User],
-  synchronize: false,
+  entities: [join(__dirname, 'src/**/*.entity.ts')],
+  synchronize: true,
   autoLoadEntities: true,
   migrationsRun: true,
   logging: true,
   name: 'first',
   logger: 'advanced-console',
   keepConnectionAlive: false,
+  cache: false,
 };

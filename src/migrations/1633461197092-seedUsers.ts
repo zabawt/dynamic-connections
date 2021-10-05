@@ -7,9 +7,9 @@ export class seedUsers1633461197092 implements MigrationInterface {
     const usersTable = new Table({
       name: 'users',
       columns: [
-        { name: 'id', type: 'string', default: 'uuid_generate_v4 ()' },
-        { name: 'first_name', type: 'varchar(20)' },
-        { name: 'last_name', type: 'varchar(20)' },
+        { name: 'id', type: 'uuid', default: 'uuid_generate_v4 ()' },
+        { name: 'firstname', type: 'varchar(20)' },
+        { name: 'lastname', type: 'varchar(20)' },
       ],
     });
     queryRunner.createTable(usersTable);
@@ -23,8 +23,8 @@ export class seedUsers1633461197092 implements MigrationInterface {
     users.forEach((user) => {
       const [firstName, lastName] = user;
       queryRunner.query(`
-    INSERT INTO users ('first_name', 'last_name')
-    VALUES ('${firstName}','${lastName}')`);
+        INSERT INTO users (firstname, lastname)
+        VALUES ('${firstName}','${lastName}')`);
     });
   }
 }

@@ -1,17 +1,13 @@
-import { IsString, IsUUID } from 'class-validator';
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
   @PrimaryColumn()
-  @IsUUID()
   id: string;
 
-  @Column({ name: 'firstname' })
-  @IsString()
+  @Column()
   firstName: string;
 
-  @Column({ name: 'lastname' })
-  @IsString()
+  @Column()
   lastName: string;
 }
