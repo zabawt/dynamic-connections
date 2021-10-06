@@ -17,4 +17,7 @@ export const databaseConfig: TypeOrmModuleOptions = {
   logger: 'advanced-console',
   keepConnectionAlive: true,
   cache: false,
+  extra: {
+    idleTimeoutMillis: 60000,
+  },
 };

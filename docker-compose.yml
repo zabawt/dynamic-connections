@@ -2,7 +2,7 @@ version: '3'
 
 services:
   siemens_database:
-    image: library/postgres:13
+    image: library/postgres:11
     shm_size: 128M
     container_name: poc_db
     ports:
