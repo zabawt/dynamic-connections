@@ -1,8 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 export class seedUsers1633461197092 implements MigrationInterface {
-  public async down(queryRunner: QueryRunner): Promise<void> {
-    return queryRunner.dropTable('users');
-  }
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
@@ -22,11 +19,25 @@ export class seedUsers1633461197092 implements MigrationInterface {
       ['Maciek', 'L'],
     ];
 
-    users.forEach((user) => {
-      const [firstName, lastName] = user;
-      queryRunner.query(`
+    const demoUsers = [
+      ['Demo', 'User1'],
+      ['Demo', 'User2'],
+      ['Demo', 'User3'],
+      ['Demo', 'User4'],
+    ];
+
+    const currentDb = await queryRunner.getCurrentDatabase();
+
+    (currentDb === 'poc' ? users : demoUsers).forEach(
+      ([firstName, lastName]) => {
+        queryRunner.query(`
         INSERT INTO users (firstname, lastname)
         VALUES ('${firstName}','${lastName}')`);
-    });
+      },
+    );
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    return queryRunner.dropTable('users');
   }
 }
