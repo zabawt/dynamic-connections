@@ -15,6 +15,6 @@ export const databaseConfig: TypeOrmModuleOptions = {
   logging: true,
   name: 'first',
   logger: 'advanced-console',
-  keepConnectionAlive: false,
+  keepConnectionAlive: true,
   cache: false,
 };

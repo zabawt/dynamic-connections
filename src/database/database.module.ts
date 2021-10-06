@@ -1,5 +1,4 @@
-import { Inject, Injectable, Module, Request, Scope } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { Inject, Module, Request } from '@nestjs/common';
 
 import { REQUEST } from '@nestjs/core';
 import {
