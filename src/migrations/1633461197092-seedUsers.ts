@@ -4,6 +4,8 @@ export class seedUsers1633461197092 implements MigrationInterface {
     return queryRunner.dropTable('users');
   }
   public async up(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
+
     const usersTable = new Table({
       name: 'users',
       columns: [
