@@ -1,6 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 export class seedUsers1633461197092 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    const currentDb = await queryRunner.getCurrentDatabase();
+
     queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
     const usersTable = new Table({
@@ -25,8 +27,6 @@ export class seedUsers1633461197092 implements MigrationInterface {
       ['Demo', 'User3'],
       ['Demo', 'User4'],
     ];
-
-    const currentDb = await queryRunner.getCurrentDatabase();
 
     (currentDb === 'poc' ? users : demoUsers).forEach(
       ([firstName, lastName]) => {
