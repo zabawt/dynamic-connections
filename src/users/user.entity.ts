@@ -5,9 +5,9 @@ export class User {
   @PrimaryColumn()
   id: string;
 
-  @Column()
+  @Column({ name: 'firstname' })
   firstName: string;
 
-  @Column()
+  @Column({ name: 'lastname' })
   lastName: string;
 }

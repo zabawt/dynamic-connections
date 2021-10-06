@@ -9,7 +9,7 @@ const databaseConnectionOptions: ConnectionOptions = {
   password: 'root',
   database: 'poc',
   logging: true,
-  synchronize: true,
+  synchronize: false,
   port: 5432,
   entities: [join(__dirname, 'src/**/*.entity.ts')],
   migrations: [join(__dirname, 'src/migrations/*.ts')],
