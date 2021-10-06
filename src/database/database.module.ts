@@ -9,15 +9,14 @@ import {
 } from '@nestjs/typeorm';
 import { databaseConfig } from 'src/config/database.config';
 
-@Injectable({ scope: Scope.REQUEST })
 export class CustomTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
   constructor(@Inject(REQUEST) private readonly request: Request) {}
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     const defaultOpts = databaseConfig;
 
     return this.request.headers['demo-mode'] === 'false'
-      ? ({ ...defaultOpts, name: uuidv4() } as any)
-      : { ...defaultOpts, database: 'poc_demo', name: uuidv4() };
+      ? ({ ...defaultOpts, name: 'poc' } as any)
+      : { ...defaultOpts, database: 'poc_demo', name: 'poc_demo' };
   }
 }
 @Module({
