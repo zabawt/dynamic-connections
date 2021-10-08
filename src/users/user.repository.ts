@@ -1,6 +1,6 @@
-import { Injectable, Scope } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Inject, Injectable, Scope } from '@nestjs/common';
+import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
 
-@Injectable({ scope: Scope.REQUEST })
+@EntityRepository(User)
 export class UserRepository extends Repository<User> {}

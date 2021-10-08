@@ -12,6 +12,7 @@ export class AuthService {
   ) {}
 
   async validateUser(firstName: string): Promise<User> {
+    console.error('validate user');
     return this.usersService.findByName(firstName);
   }
 

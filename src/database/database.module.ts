@@ -1,6 +1,6 @@
-import { Global, Inject, Module, Request } from '@nestjs/common';
-
+import { Inject, Module, Request } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
+
 import {
   TypeOrmModule,
   TypeOrmModuleOptions,
@@ -8,6 +8,7 @@ import {
 } from '@nestjs/typeorm';
 
 import { databaseConfig } from 'src/config/database.config';
+import { UsersService } from 'src/users/users.service';
 
 enum Connections {
   POC = 'poc',
@@ -19,7 +20,7 @@ export class CustomTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     const defaultOpts = databaseConfig;
 
-    return this.request.headers?.['demo-mode'] === 'true'
+    return this.request?.headers?.['demo-mode'] === 'true'
       ? ({
           ...defaultOpts,
           name: Connections.POC_DEMO,
@@ -36,6 +37,7 @@ export class CustomTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
+      inject: [UsersService],
       useClass: CustomTypeOrmOptionsFactory,
     }),
   ],

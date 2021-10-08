@@ -1,12 +1,13 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable, OnModuleInit, Scope } from '@nestjs/common';
 
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from 'src/users/users.service';
 import { UserRepository } from 'src/users/user.repository';
+import { ModuleRef } from '@nestjs/core';
 
 export class JWTPayload {
   @IsUUID()
@@ -22,21 +23,31 @@ export class JWTPayload {
   lastname: string;
 }
 
-export class JwtStrategy extends PassportStrategy(Strategy) {
+@Injectable()
+export class JwtStrategy
+  extends PassportStrategy(Strategy)
+  implements OnModuleInit
+{
+  private usersService: UsersService;
+
   constructor(
+    private moduleRef: ModuleRef,
     private configService: ConfigService,
-    private usersService: UsersService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'and0U2VjcmV0',
+
+      secretOrKey: configService.get<string>('JWT_SECRET'),
     });
+  }
+  async onModuleInit() {
+    this.usersService = await this.moduleRef.resolve(UsersService);
+    this.configService = await this.moduleRef.resolve(ConfigService);
   }
 
   async validate({ id, firstname, lastname }: JWTPayload) {
-    // const user = this.usersService.findAll();
-
+    const user = await this.usersService.findOne(id);
     return {
       id,
       firstname,
