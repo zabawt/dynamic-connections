@@ -1,4 +1,4 @@
-import { Inject, Module, Request } from '@nestjs/common';
+import { Global, Inject, Module, Request } from '@nestjs/common';
 
 import { REQUEST } from '@nestjs/core';
 import {
@@ -28,11 +28,13 @@ export class CustomTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
         };
   }
 }
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       useClass: CustomTypeOrmOptionsFactory,
     }),
   ],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}

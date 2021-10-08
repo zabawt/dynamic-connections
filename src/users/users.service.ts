@@ -1,24 +1,27 @@
-import { Injectable, Scope } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Injectable, OnModuleInit, Scope } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
+
 import { User } from './user.entity';
+import { UserRepository } from './user.repository';
 
 @Injectable({ scope: Scope.REQUEST })
-export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
+export class UsersService implements OnModuleInit {
+  private userRepository: UserRepository;
+  onModuleInit() {
+    this.userRepository = this.moduleRef.get(UserRepository);
+  }
+
+  constructor(private moduleRef: ModuleRef) {}
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.userRepository.find();
   }
 
   findOne(id: string): Promise<User> {
-    return this.usersRepository.findOne(id);
+    return this.userRepository.findOne(id);
   }
 
   async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+    await this.userRepository.delete(id);
   }
 }
