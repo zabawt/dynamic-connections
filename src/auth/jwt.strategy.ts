@@ -1,11 +1,12 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { UsersService } from 'src/users/users.service';
+import { UserRepository } from 'src/users/user.repository';
 
 export class JWTPayload {
   @IsUUID()
@@ -21,20 +22,21 @@ export class JWTPayload {
   lastname: string;
 }
 
-@Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private configService: ConfigService,
-    private jwtService: JwtService,
+    private usersService: UsersService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_SECRET'),
+      secretOrKey: 'and0U2VjcmV0',
     });
   }
 
   async validate({ id, firstname, lastname }: JWTPayload) {
+    // const user = this.usersService.findAll();
+
     return {
       id,
       firstname,
