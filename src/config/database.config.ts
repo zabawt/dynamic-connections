@@ -11,7 +11,7 @@ export const databaseConfig: TypeOrmModuleOptions = {
   entities: [User],
   synchronize: false,
   autoLoadEntities: true,
-  migrationsRun: false,
+  migrationsRun: true,
   logging: true,
   logger: 'advanced-console',
   keepConnectionAlive: true,
