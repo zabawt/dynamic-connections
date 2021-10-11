@@ -1,0 +1,21 @@
+#AUTH
+@baseUrl = http://localhost:3000
+# @name authResponse
+POST {{baseUrl}}/auth/login HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Bjorn"
+}
+
+###
+
+#GET USERS
+GET {{baseUrl}}/users
+Authorization: Bearer {{authResponse.response.body.access_token}}
+
+###
+#GET DEMO USERS
+GET {{baseUrl}}/users
+demo-mode: true
+Authorization: Bearer {{authResponse.response.body.access_token}}

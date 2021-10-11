@@ -1,24 +1,28 @@
-import { Injectable, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+
 import { User } from './user.entity';
+import { UserRepository } from './user.repository';
 
-@Injectable({ scope: Scope.REQUEST })
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
+  constructor(@InjectRepository(User) private userRepository: UserRepository) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
-  findOne(id: string): Promise<User> {
-    return this.usersRepository.findOne(id);
+  async findOne(id: string): Promise<User> {
+    return this.userRepository.findOne(id);
+  }
+
+  async findByName(firstName: string) {
+    const user = await this.userRepository.findOne({ firstName });
+    if (!user) {
+      throw new Error('Not existing user');
+    }
+    return user;
   }
 
   async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+    await this.userRepository.delete(id);
   }
 }
