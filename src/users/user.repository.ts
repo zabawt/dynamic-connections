@@ -1,4 +1,3 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
 

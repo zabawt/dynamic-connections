@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserLoginDto } from 'src/user-login.dto';
@@ -12,7 +12,6 @@ export class AuthService {
   ) {}
 
   async validateUser(firstName: string): Promise<User> {
-    console.error('validate user');
     return this.usersService.findByName(firstName);
   }
 

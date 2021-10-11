@@ -8,7 +8,6 @@ import {
 } from '@nestjs/typeorm';
 
 import { databaseConfig } from 'src/config/database.config';
-import { UsersService } from 'src/users/users.service';
 
 enum Connections {
   POC = 'poc',
@@ -37,7 +36,6 @@ export class CustomTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      inject: [UsersService],
       useClass: CustomTypeOrmOptionsFactory,
     }),
   ],

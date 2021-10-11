@@ -1,12 +1,12 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, OnModuleInit, Scope } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from 'src/users/users.service';
-import { UserRepository } from 'src/users/user.repository';
+
 import { ModuleRef } from '@nestjs/core';
 
 export class JWTPayload {
@@ -32,18 +32,16 @@ export class JwtStrategy
 
   constructor(
     private moduleRef: ModuleRef,
-    private configService: ConfigService,
+    readonly configService: ConfigService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-
       secretOrKey: configService.get<string>('JWT_SECRET'),
     });
   }
   async onModuleInit() {
     this.usersService = await this.moduleRef.resolve(UsersService);
-    this.configService = await this.moduleRef.resolve(ConfigService);
   }
 
   async validate({ id, firstname, lastname }: JWTPayload) {
